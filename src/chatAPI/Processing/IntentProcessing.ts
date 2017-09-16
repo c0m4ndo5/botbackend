@@ -12,7 +12,7 @@ export class WitIntentProcessor implements IIntentProcessor{
 
     public callAPI(message: string, callback: ((_intent: IntentData) => void)): void{
         var options = {
-            url: settings.wit_url,
+            url: settings.wit_url + encodeURI(message),
             method: 'GET',
             headers:{Authorization: 'Bearer ' + settings.auth_token_wit}
         }

@@ -1,7 +1,7 @@
 export interface Entity{
     name: string;
-    confidence: number;
-    value: string;
+    confidence?: number;
+    value?: string;
 }
 
 export interface IntentData{
