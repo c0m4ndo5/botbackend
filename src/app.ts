@@ -26,6 +26,7 @@ app.use(express.static(path.join(__dirname, '../files')));
 app.use(cookieSession({
   secret: settings.cookieKey,
   signed: true,
+  maxAge: 24 * 60 * 60 * 1000
 }));
 
 var API = require('./chatAPI/APICallResolver');

@@ -19,16 +19,19 @@ export class WitIntentProcessor implements IIntentProcessor{
         request(options, function(error, response, body){
             var bodyJson = JSON.parse(body);
             var entities : Entity[] = [];
-            if(bodyJson['entities']['intent']){
-                bodyJson['entities']['intent'].forEach(_intent => {
-                    var entity : Entity = {
-                        name: 'intent',
-                        confidence: _intent['confidence'],
-                        value: _intent['value']
-                    }
-                    entities.push(entity);
-                });
-            } else{
+            if(bodyJson['entities']){
+                for(var _key in bodyJson['entities']){
+                    bodyJson['entities'][_key].forEach(_element => {
+                        var entity : Entity = {
+                            name: _key,
+                            confidence: _element['confidence'],
+                            value: _element['value']
+                        }
+                        entities.push(entity);
+                    });
+                }
+            } 
+            else{
                 entities.push({
                     name: 'intent',
                     confidence: 1,

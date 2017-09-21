@@ -7,6 +7,7 @@ import request = require('request');
 import cookieSession = require('cookie-session');
 
 let router = Router();
+let cHandler = new ConversationHandler();
 
 router.post('/message', function(req, res, next) {
     var reply = '';
@@ -17,19 +18,19 @@ router.post('/message', function(req, res, next) {
                 if(req.session.userData){
                     userData = req.session.userData;
                 } else {
+                    var test =  Math.floor(Math.random()*100000000).toString();
                     userData = {
                         userGender:"",
                         userName:"",
-                        userConversationState:"init",
+                        userID: Math.floor(Math.random()*100000000).toString(),
                         tempData: JSON.parse("{}")
                     }
                     req.session.userData = userData;
                 }
             
             var intentProcessor = new WitIntentProcessor();
-            var handler = new ConversationHandler();
             intentProcessor.callAPI(req.body.message, function(_intent: IntentData){
-                var response = handler.handleMessage(_intent, userData);
+                var response = cHandler.handleMessage(_intent, userData);
                 res.json({reply:response});
             });
         } else res.json({reply:'Unexpected request format'});

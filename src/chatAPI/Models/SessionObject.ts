@@ -2,6 +2,6 @@
 export interface SessionObject{
     userName?: string,
     userGender?: string,
-    userConversationState?: string,
+    userID: string,
     tempData?: JSON
 }
