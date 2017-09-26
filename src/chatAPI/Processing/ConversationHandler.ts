@@ -2,12 +2,14 @@ import { IntentData, Entity } from '../Models/Intent';
 import { SessionObject } from '../Models/SessionObject';
 import { CacheObject } from '../Models/CacheObject';
 import NodeCache = require('node-cache');
+import { StaticReplyCreator } from './StaticReplyCreator';
 
 export class ConversationHandler{
     public nodeCache: NodeCache;
+    public replyCreator: StaticReplyCreator;
     public constructor(){
         this.nodeCache = new NodeCache({ stdTTL: 6000, checkperiod: 300 });
-        
+        this.replyCreator = new StaticReplyCreator();
     }
 
     public handleMessage(intent: IntentData, userSession: SessionObject): string{
@@ -29,7 +31,7 @@ export class ConversationHandler{
         if(mainIntent.name == "intent" && userCache.conversationState == "init"){
             //handle typical static intents
             if(mainIntent.value == "hello"){
-                reply = "Well hello there! My name is Curdia. What brings you here?";
+                reply = this.replyCreator.getRandomGreeting(false);
             } else if(mainIntent.value == "whois"){
                 reply = "You're asking about me? I'm just Yuri's virtual assistant. I'm hoping I can handle your general questions about him." + 
                 "Maybe one day I'll be as smart as him and do his job! Just don't tell him I said that."
@@ -49,22 +51,14 @@ export class ConversationHandler{
             if(userCache.clarifySubject == "whois_yuri"){
                 var topics = intent.entities.filter(_entity => _entity.name == "topic" && _entity.confidence! > 0.6);
                 let topicFound: boolean = false;
+                var that = this;
                 topics.forEach(function(_topic){
                     if(!topicFound)
                         reply += "In terms of " + _topic.value + ", ";
                     else
                         reply += "As for " + _topic.value + ", ";
-                    if(_topic.value == "travels"){
-
-                    } else if (_topic.value == "technologies"){
-
-                    } else if (_topic.value == "adventures"){
-
-                    } else if (_topic.value == "programming languages"){
-
-                    } else if (_topic.value == "languages"){
-                        reply += "yuri speaks Portuguese and English fluently and comfortably even in presence of audiences, if necessary."
-                    }
+                    
+                    reply += that.replyCreator.getTopicExplanation(_topic.value ? _topic.value : "none");
                     topicFound = true;
                 });
             }
