@@ -25,10 +25,31 @@ export class ConversationHandler{
             if(item.name.toLowerCase() == "intent" && item.confidence! > 0.5){
                 mainIntent = item;
             }
+            if(item.name.toLowerCase() == "bye" && item.confidence! > 0.7 && item.value == "true")
+                mainIntent = item;
         });
 
-        //INIT state
-        if(mainIntent.name == "intent" && userCache.conversationState == "init"){
+        let clarificationSuccess: boolean = true;
+        if (userCache.conversationState == "clarify") {
+            if(userCache.clarifySubject == "whois_yuri"){
+                var topics = intent.entities.filter(_entity => _entity.name == "topic" && _entity.confidence! > 0.6);
+                let topicFound: boolean = false;
+                var that = this;
+                topics.forEach(function(_topic){
+                    if(!topicFound)
+                        reply += "In terms of " + _topic.value + ", ";
+                    else
+                        reply += "As for " + _topic.value + ", ";
+                    
+                    reply += that.replyCreator.getTopicExplanation(_topic.value ? _topic.value : "none");
+                    topicFound = true;
+                });
+                if(topics.length == 0) clarificationSuccess = false;
+            } else{
+                clarificationSuccess = false;
+            }
+        } 
+        if(mainIntent.name == "intent" && (userCache.conversationState == "init" || !clarificationSuccess)){
             //handle typical static intents
             if(mainIntent.value == "hello"){
                 reply = this.replyCreator.getRandomGreeting(false);
@@ -44,24 +65,16 @@ export class ConversationHandler{
                 userCache.clarifySubject = "whois_yuri";
             } else if(mainIntent.value == "creator"){
                 reply = "I've been created by Yuri using Node.js, Expressjs, Typescript, Angular2... Well, that's what he tells me anyway. " +
-                "I don't believe it. He gave me this link () which supposedly has my code in it. I can't believe my brain is just" +
+                "I don't believe it. He gave me this link <a href='https://github.com/c0m4ndo5/botbackend'>this link</a> which supposedly has my code in it. I can't believe my brain is just" +
                 " some lines of code!"
+            } else if(mainIntent.value == "professional"){
+                reply = "Looking for his professional information? Alright! You'll find his CV <a href='../files/Yuri_CV.pdf'>here</a> and " +
+                "if you'd rather just see everything in good ol' LinkedIn, please check <a href='https://www.linkedin.com/in/yuri-wergrzn-4269b497/'>his profile</a> out!"
             }
-        } else if (userCache.conversationState == "clarify") {
-            if(userCache.clarifySubject == "whois_yuri"){
-                var topics = intent.entities.filter(_entity => _entity.name == "topic" && _entity.confidence! > 0.6);
-                let topicFound: boolean = false;
-                var that = this;
-                topics.forEach(function(_topic){
-                    if(!topicFound)
-                        reply += "In terms of " + _topic.value + ", ";
-                    else
-                        reply += "As for " + _topic.value + ", ";
-                    
-                    reply += that.replyCreator.getTopicExplanation(_topic.value ? _topic.value : "none");
-                    topicFound = true;
-                });
-            }
+        }  else if(mainIntent.name == "bye"){
+            reply = this.replyCreator.getRandomFarewell(false);
+        }else if (intent.chatMessage.length == 0){
+            reply = this.replyCreator.getRandomFollowup();
         }
 
         this.nodeCache.set(userSession.userID, userCache);
