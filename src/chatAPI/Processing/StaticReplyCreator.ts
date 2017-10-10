@@ -2,10 +2,36 @@ import { IReplyCreator } from './Interfaces/IReplyCreator';
 
 export class StaticReplyCreator implements IReplyCreator{//static as in hard coded. Pending database implementation, if worth it for this bot
     getRandomJoke(): string {
-        throw new Error("Method not implemented.");
+        var response: string[] = [
+            "The average sales tax in Brazil is between 30-50%. What a joke!",
+            "A mother asks his son: Anton, do you think I'm a bad mother?<br/>The son replies: My name is Paul.",
+            "I thought I’d tell you a good time travel joke – but you didn't like it",
+            "If you spent your day in a well, can you say your day was well-spent?",
+            "What's the biggest pan in the world? Japan"
+        ];
+        var selected = Math.floor((Math.random() * response.length));
+        return response[selected];
     }
     getRandomAdventure(): string {
-        throw new Error("Method not implemented.");
+        var response: string[] = [
+            "Test",
+            "test2"
+        ];
+        var selected = Math.floor((Math.random() * response.length));
+        return response[selected];
+    }
+    getRandomWork(recent: boolean): string{
+        var response: string;
+        if(recent){
+            return "most recent work";
+        } else {
+            var works: string[] = [
+                "work1",
+                "work2"
+            ];
+            var selected = Math.floor((Math.random() * works.length));
+            return works[selected];
+        }
     }
     getRandomGreeting(short: boolean): string {
         var greetings: string[];

@@ -70,6 +70,19 @@ export class ConversationHandler{
             } else if(mainIntent.value == "professional"){
                 reply = "Looking for his professional information? Alright! You'll find his CV <a href='../files/Yuri_CV.pdf'>here</a> and " +
                 "if you'd rather just see everything in good ol' LinkedIn, please check <a href='https://www.linkedin.com/in/yuri-wergrzn-4269b497/'>his profile</a> out!"
+            } else if(mainIntent.value == "where_yuri"){
+                reply = "Yuri is from Curitiba, Brazil and "
+                let Departure:Date = new Date(2017, 10, 13);
+                let now:Date = new Date();
+                if(now <= Departure) {
+                    reply += "he is currently still living there. He will move to Canada as a Permanent Resident in November 13th, 2017.";
+                } else if((now.getDay() == Departure.getDay() || now.getDay() == Departure.getDay()+1) && now.getMonth() == Departure.getMonth() && now.getFullYear() == Departure.getFullYear()){
+                    reply += "he is currently moving to Canada as a Permanent Resident. Currently as in, right now! November 13-14th 2017!";
+                } else if((now.getDay() < Departure.getDay() + 4) && now.getMonth() == Departure.getMonth() && now.getFullYear() == Departure.getFullYear()){
+                    reply += "he has just landed in Canada as a Permanent Resident. Literally! His landing day was November 14th 2017";
+                } else {
+                    reply += "he is living in Canada as a Permanent Residence since November 14th 2017.";
+                }
             }
         }  else if(mainIntent.name == "bye"){
             reply = this.replyCreator.getRandomFarewell(false);
