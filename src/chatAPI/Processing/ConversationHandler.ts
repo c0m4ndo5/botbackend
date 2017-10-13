@@ -48,6 +48,7 @@ export class ConversationHandler{
             } else{
                 clarificationSuccess = false;
             }
+            userCache.conversationState = "init";
         } 
         if(mainIntent.name == "intent" && (userCache.conversationState == "init" || !clarificationSuccess)){
             //handle typical static intents
@@ -55,7 +56,7 @@ export class ConversationHandler{
                 reply = this.replyCreator.getRandomGreeting(false);
             } else if(mainIntent.value == "whois"){
                 reply = "You're asking about me? I'm just Yuri's virtual assistant. I'm hoping I can handle your general questions about him." + 
-                "Maybe one day I'll be as smart as him and do his job! Just don't tell him I said that."
+                "Maybe one day I'll be as smart as him and do his job! Just don't tell him I said that."//describe making of bot
             } else if(mainIntent.value == "whois_yuri"){
                 reply = "Glad you've asked! He's a very cool guy who likes traveling, gaming and making new friends and having some beer with them." +
                 "He's been a software developer since 2012, having worked with a lot of different technologies and languages since.\n" +

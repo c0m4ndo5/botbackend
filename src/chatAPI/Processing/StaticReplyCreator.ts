@@ -14,21 +14,33 @@ export class StaticReplyCreator implements IReplyCreator{//static as in hard cod
     }
     getRandomAdventure(): string {
         var response: string[] = [
-            "Test",
-            "test2"
+            "He once went to an off-road adventure in the coast of Sao Paulo and, with his friends, "+
+            "drove 70km on sandy beaches before reaching one of Brazil's oldest towns, Cananéia. I wish I could have been there!<br/>" +
+            "<img src='../files/adv1.jpg'></img>",
+            "He went to the second largest Oktoberfest in the world at Blumenau, SC, in Brazil. Two kegs of beer were served in the bus! " +
+            "Before he'd even get there! He didn't tell me much more about that trip, though. Said he didn't remember much...",
+            "In the 2015 Brazillian Carnival, he went to a public state park on an event with 50+ attendees. It was a bit hard to get to but "+
+            "not a problem on a 4x4 pick-up. The bus however, bringing the bulk of the attendees, got stuck and Yuri had to rescue them! " +
+            "It had just rained a lot, though, and he almost slipped off a cliff due to all the slippery mud! That was some adrenaline!"
         ];
         var selected = Math.floor((Math.random() * response.length));
         return response[selected];
     }
     getRandomWork(recent: boolean): string{
-        var response: string;
+        var works: string[] = [
+            "He's created a chat bot for ExxonMobil, whose objective is to be the central digital assistant for employees, kind of like " +
+            "siri or cortana for internal matters. He participated designing the architecture of the bot/service and it's implementation. "+
+            "The bot was designed service oriented architecture principles and utilized C# .NET, entity framework, REST APIs and the Azure bot " +
+            "platform. It also utilized Natural Language Recognition (NLP) technology. I envy her, Yuri's spent more time with her than me!",
+            "Yuri worked on a project to redesign service request forms on ExxonMobil's IT Services portal. He created a platform for easy " +
+            "design of forms using Angular and REST APIs (C# .NET) in which developers could quickly put together forms for requests (such as " +
+            "access, hardware and software requests) with little coding. It interfaced with BMC's complex platform, ITSM Remedy, hiding it's " +
+            "complexities under a simple REST API's endpoints."
+        ];
         if(recent){
-            return "most recent work";
+            return works[0];
         } else {
-            var works: string[] = [
-                "work1",
-                "work2"
-            ];
+
             var selected = Math.floor((Math.random() * works.length));
             return works[selected];
         }

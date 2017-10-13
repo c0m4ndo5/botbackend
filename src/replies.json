@@ -1,0 +1,103 @@
+{
+    "replyList":[
+        {
+            "content":"Well hello there! My name is Curdia. What would you like to chat about?",
+            "category":"greeting",
+            "clarifyState":"none",
+            "suggestions":[
+                "about Yuri" , "Who are you?", "tell me a joke"
+            ]
+        },{
+            "content":"Heya! Name's Curdia, glad you've come to visit. What can I do for you?",
+            "category":"greeting",
+            "clarifyState":"none",
+            "suggestions":[
+                "about Yuri" , "Who are you?", "tell me a joke"
+            ]
+        },{
+            "content":"Are you there?",
+            "category":"fup",
+            "clarifyState":"none",
+            "suggestions":[
+                "a" , "b"
+            ]
+        },{
+            "content":"Is there anyone there?",
+            "category":"fup",
+            "clarifyState":"none",
+            "suggestions":[
+                "a" , "b"
+            ]
+        },{
+            "content":"Hello? Sir?",
+            "category":"fup",
+            "clarifyState":"none",
+            "suggestions":[
+                "a" , "b"
+            ]
+        },{
+            "content":"Hey, I'm still here!",
+            "category":"fup",
+            "clarifyState":"none",
+            "suggestions":[
+                "a" , "b"
+            ]
+        },{
+            "content":"Please don't go yet... :(",
+            "category":"fup",
+            "clarifyState":"none",
+            "suggestions":[
+                "a" , "b"
+            ]
+        },{
+            "content":"Bye bye! Thanks for visiting!",
+            "category":"bye",
+            "clarifyState":"none",
+            "suggestions":[
+                "a" , "b"
+            ]
+        },{
+            "content":"Farewell!! Hope you return someday!",
+            "category":"bye",
+            "clarifyState":"none",
+            "suggestions":[
+                "a" , "b"
+            ]
+        },{
+            "content":"Leaving already? Okay, hope you come back! See ya!",
+            "category":"bye",
+            "clarifyState":"none",
+            "suggestions":[
+                "a" , "b"
+            ]
+        },{
+            "content":"Leaving? Aww.. Okay, good bye!",
+            "category":"bye",
+            "clarifyState":"none",
+            "suggestions":[
+                "a" , "b"
+            ]
+        },{
+            "content":"Well, hope you come back",
+            "category":"timeout",
+            "clarifyState":"none",
+            "suggestions":[
+                "Who is Yuri?" , "Hey there"
+            ]
+        },{
+            "content":"Hey, if you come back.. say something, it's lonely here.",
+            "category":"timeout",
+            "clarifyState":"none",
+            "suggestions":[
+                "Who is Yuri?" , "Hey there"
+            ]
+        },{
+            "content":"Aaand I'm alone again...",
+            "category":"timeout",
+            "clarifyState":"none",
+            "suggestions":[
+                "Who is Yuri?" , "Hey there"
+            ]
+        }
+    ]
+}
