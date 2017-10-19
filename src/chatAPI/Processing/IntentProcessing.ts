@@ -1,6 +1,6 @@
 import { IntentData, Entity } from '../Models/Intent';
 import request = require('request');
-import settings = require('../../settings.json');
+var settings = require('../../settings.json');
 
 export interface IIntentProcessor{
     callAPI(message: string, callback: ((_intent: IntentData) => void)): void;

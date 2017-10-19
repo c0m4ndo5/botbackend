@@ -1,18 +1,33 @@
 import { IReplyCreator } from './Interfaces/IReplyCreator';
+import { Reply } from '../Models/Reply';
+var replies = require('../../../data/replies.json');
 
 export class StaticReplyCreator implements IReplyCreator{//static as in hard coded. Pending database implementation, if worth it for this bot
-    getRandomJoke(): string {
-        var response: string[] = [
-            "The average sales tax in Brazil is between 30-50%. What a joke!",
-            "A mother asks his son: Anton, do you think I'm a bad mother?<br/>The son replies: My name is Paul.",
-            "I thought I’d tell you a good time travel joke – but you didn't like it",
-            "If you spent your day in a well, can you say your day was well-spent?",
-            "What's the biggest pan in the world? Japan"
-        ];
-        var selected = Math.floor((Math.random() * response.length));
-        return response[selected];
+    public repliesList:Reply[] = [];
+    public constructor(){
+        replies.forEach(element => {
+            this.repliesList.push({
+                content: element.content,
+                category: element.category,
+                clarifyState: element.clarifyState,
+                suggestions: element.suggestions
+            })
+        });
     }
-    getRandomAdventure(): string {
+
+    getRandomReply(category: string): Reply{
+        var responses = this.repliesList.filter(_entity => _entity.category == category)
+        var selected = Math.floor((Math.random() * responses.length));
+        return responses[selected];
+    }
+/* 
+    getRandomJoke(): Reply {
+        var responses = this.repliesList.filter(_entity => _entity.category == "joke")
+
+        var selected = Math.floor((Math.random() * responses.length));
+        return responses[selected];
+    }
+    getRandomAdventure(): Reply {
         var response: string[] = [
             "He once went to an off-road adventure in the coast of Sao Paulo and, with his friends, "+
             "drove 70km on sandy beaches before reaching one of Brazil's oldest towns, Cananéia. I wish I could have been there!<br/>" +
@@ -26,7 +41,7 @@ export class StaticReplyCreator implements IReplyCreator{//static as in hard cod
         var selected = Math.floor((Math.random() * response.length));
         return response[selected];
     }
-    getRandomWork(recent: boolean): string{
+    getRandomWork(recent: boolean): Reply{
         var works: string[] = [
             "He's created a chat bot for ExxonMobil, whose objective is to be the central digital assistant for employees, kind of like " +
             "siri or cortana for internal matters. He participated designing the architecture of the bot/service and it's implementation. "+
@@ -45,7 +60,7 @@ export class StaticReplyCreator implements IReplyCreator{//static as in hard cod
             return works[selected];
         }
     }
-    getRandomGreeting(short: boolean): string {
+    getRandomGreeting(short: boolean): Reply {
         var greetings: string[];
         if(short){
             greetings = [
@@ -62,7 +77,7 @@ export class StaticReplyCreator implements IReplyCreator{//static as in hard cod
         var selected = Math.floor((Math.random() * greetings.length));
         return greetings[selected];
     }
-    getRandomFollowup(): string{
+    getRandomFollowup(): Reply{
         var fups: string[] = [
             "Are you there?",
             "Is there anyone there?",
@@ -73,7 +88,7 @@ export class StaticReplyCreator implements IReplyCreator{//static as in hard cod
         var selected = Math.floor((Math.random() * fups.length));
         return fups[selected];
     }
-    getRandomFarewell(timeout: boolean): string {
+    getRandomFarewell(timeout: boolean): Reply {
         var farewell: string[];
         if(timeout){
             farewell = [
@@ -92,7 +107,7 @@ export class StaticReplyCreator implements IReplyCreator{//static as in hard cod
         var selected = Math.floor((Math.random() * farewell.length));
         return farewell[selected];
     }
-    getTopicExplanation(topic: string): string {
+    getTopicExplanation(topic: string): Reply {
         var reply = "";
         if(topic == "travels"){
             reply += "Yuri loves to travel and go on exciting adventures! " + this.getRandomAdventure();
@@ -110,6 +125,6 @@ export class StaticReplyCreator implements IReplyCreator{//static as in hard cod
             reply += "Yuri speaks Portuguese and English fluently and comfortably even in presence of audiences, if necessary."
         }
         return reply;
-    }
+    } */
 
 }

@@ -4,5 +4,5 @@
 *dist/*
 *node_modules/*
 node_modules/
-src/settings.json
+data/settings.json
 *npm-debug.log

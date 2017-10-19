@@ -3,13 +3,15 @@ import { SessionObject } from '../Models/SessionObject';
 import { CacheObject } from '../Models/CacheObject';
 import NodeCache = require('node-cache');
 import { StaticReplyCreator } from './StaticReplyCreator';
+import { IReplyCreator } from './Interfaces/IReplyCreator';
+import { Reply } from '../Models/Reply';
 
 export class ConversationHandler{
     public nodeCache: NodeCache;
-    public replyCreator: StaticReplyCreator;
+    public replyCreator: IReplyCreator;
     public constructor(){
         this.nodeCache = new NodeCache({ stdTTL: 6000, checkperiod: 300 });
-        this.replyCreator = new StaticReplyCreator();
+        this.replyCreator = new StaticReplyCreator();//todo injection to remove coupling
     }
 
     public handleMessage(intent: IntentData, userSession: SessionObject): string{
@@ -41,7 +43,7 @@ export class ConversationHandler{
                     else
                         reply += "As for " + _topic.value + ", ";
                     
-                    reply += that.replyCreator.getTopicExplanation(_topic.value ? _topic.value : "none");
+                    reply += that.replyCreator.getRandomReply(_topic.value ? _topic.value : "none").content;// getTopicExplanation(_topic.value ? _topic.value : "none");
                     topicFound = true;
                 });
                 if(topics.length == 0) clarificationSuccess = false;
@@ -53,7 +55,7 @@ export class ConversationHandler{
         if(mainIntent.name == "intent" && (userCache.conversationState == "init" || !clarificationSuccess)){
             //handle typical static intents
             if(mainIntent.value == "hello"){
-                reply = this.replyCreator.getRandomGreeting(false);
+                reply = this.replyCreator.getRandomReply("greeting").content; //getRandomGreeting(false);
             } else if(mainIntent.value == "whois"){
                 reply = "You're asking about me? I'm just Yuri's virtual assistant. I'm hoping I can handle your general questions about him." + 
                 "Maybe one day I'll be as smart as him and do his job! Just don't tell him I said that."//describe making of bot
@@ -86,9 +88,9 @@ export class ConversationHandler{
                 }
             }
         }  else if(mainIntent.name == "bye"){
-            reply = this.replyCreator.getRandomFarewell(false);
+            reply = this.replyCreator.getRandomReply("bye").content; //getRandomFarewell(false);
         }else if (intent.chatMessage.length == 0){
-            reply = this.replyCreator.getRandomFollowup();
+            reply = this.replyCreator.getRandomReply("fup").content; //getRandomFollowup();
         }
 
         this.nodeCache.set(userSession.userID, userCache);

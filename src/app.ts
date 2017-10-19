@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
-var settings = require('./settings.json');
+var settings = require('../data/settings.json');
 
 var app = express();
 
