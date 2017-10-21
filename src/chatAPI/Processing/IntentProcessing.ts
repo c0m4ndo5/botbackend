@@ -26,7 +26,8 @@ export class WitIntentProcessor implements IIntentProcessor{
                             var entity : Entity = {
                                 name: _key,
                                 confidence: _element['confidence'],
-                                value: _element['value']
+                                value: _element['value'],
+                                suggested: _element['suggested'] ? _element['suggested'] : false
                             }
                             entities.push(entity);
                         });

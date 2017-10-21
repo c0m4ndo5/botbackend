@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../frontend')));
-app.use(express.static(path.join(__dirname, '../files')));
+app.use('/files',express.static(path.join(__dirname, '../files')));
 
 //Setup cookies
 app.use(cookieSession({
@@ -35,7 +35,8 @@ app.use('/api', API);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
-  err.status = 404;
+  //err.status = 404;
+  //res.status = 404;
   next(err);
 });
 

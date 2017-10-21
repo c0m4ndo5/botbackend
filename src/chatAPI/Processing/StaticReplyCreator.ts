@@ -4,9 +4,12 @@ var replies = require('../../../data/replies.json');
 
 export class StaticReplyCreator implements IReplyCreator{//static as in hard coded. Pending database implementation, if worth it for this bot
     public repliesList:Reply[] = [];
+    public usedReplies:number[] = [];
     public constructor(){
-        replies.forEach(element => {
+        var idAutoIncrement: number = 0;
+        replies.replyList.forEach(element => {
             this.repliesList.push({
+                id:idAutoIncrement++,
                 content: element.content,
                 category: element.category,
                 clarifyState: element.clarifyState,
@@ -15,8 +18,9 @@ export class StaticReplyCreator implements IReplyCreator{//static as in hard cod
         });
     }
 
-    getRandomReply(category: string): Reply{
-        var responses = this.repliesList.filter(_entity => _entity.category == category)
+    getRandomReply(category: string): Reply{//check if reply used or not
+        
+        var responses = this.repliesList.filter(_entity => _entity.category.indexOf(category) >= 0)
         var selected = Math.floor((Math.random() * responses.length));
         return responses[selected];
     }

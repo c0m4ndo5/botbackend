@@ -120,22 +120,22 @@
                 "projects" , "his adventures", "how were you made"
             ]
         },{
-            "content":"He once went to 4x4 guided trail adventure in the coast of Sao Paulo. They drove 70km on sandy beaches (legally!) before reaching one of Brazil's oldest towns, Cananéia. There, he learned that the Cananéia region is Brazil's largest producer of Oysters. He also ate quite a few of them, of course!</br> I wish I could have been there...<br/><img src='../files/adv1.jpg'></img>",
-            "category":"adventure",
+            "content":"He once went to 4x4 guided trail adventure in the coast of Sao Paulo. They drove 70km on sandy beaches (legally!) before reaching one of Brazil's oldest towns, Cananéia. There, he learned that the Cananéia region is Brazil's largest producer of Oysters. He also ate quite a few of them, of course!</br> I wish I could have been there...<br/><img src='../files/travel.jpg'></img>",
+            "category":"adventure,travels",
             "clarifyState":"none",
             "suggestions":[
                 "Yuri's work" , "another adventure", "tell me a joke"
             ]
         },{
             "content":"Last year he went to the second largest Oktoberfest in the world at Blumenau, SC, in Brazil. </br>In that trip he learned a lot about the German culture, dancing, music and of course the taste some traditional german food and beer styles",
-            "category":"adventure",
+            "category":"adventure,travels",
             "clarifyState":"none",
             "suggestions":[
                 "Yuri's work" , "another adventure", "tell me a joke"
             ]
         },{
-            "content":"Yuri is not so acquainted with the Traditional Brazilian Carnival, so he is used to do alternative trip in that huge bank holiday, </br> in 2015 he went to a huge public state park in a preserved area of Atlantic forest on an event with 50+ attendees. </br>It was a bit hard to get to but not a problem on a 4x4 pick-up. The bus however, bringing the bulk of the attendees, got stuck and Yuri had to rescue them.</br>It started raining a lot though and he almost got stuck on the mud several times! That was some adrenaline, but he managed to rescue the passengers safely!",
-            "category":"adventure",
+            "content":"in 2015 Yuri, not so acquainted with the Traditional Brazilian Carnival, went on an alternative trip in that huge bank holiday. </br> He went to public state park in a preserved area of Atlantic forest on an event with 50+ attendees. </br>It was a bit hard to get to but not a problem on a 4x4 pick-up. The bus however, bringing the bulk of the attendees, got stuck and Yuri had to rescue them.</br>It started raining a lot though and he almost got stuck on the mud several times! That was some adrenaline, but he managed to rescue the passengers safely!",
+            "category":"adventure,travels",
             "clarifyState":"none",
             "suggestions":[
                 "Yuri's work" , "more adventures", "tell me a joke"
@@ -198,10 +198,17 @@
             ]
         },{
             "content":"he's worked with C# quite frequently during the last 4 years and it is the language he's best at. However, Yuri has been working with web development using AngularJS and Angular2 for just over a year and says he enjoys it a lot. He enjoys learning new languages and is always open to them.",
-            "category":"programming",
+            "category":"programming languages",
             "clarifyState":"none",
             "suggestions":[
                 "Yuri's work" , "adventures", "who is Yuri"
+            ]
+        },{
+            "content":"Yuri speaks Portuguese and English fluently and comfortably even in presence of audiences, if necessary.",
+            "category":"languages",
+            "clarifyState":"none",
+            "suggestions":[
+                "Yuri's work" , "adventures", "programming languages"
             ]
         }
     ]

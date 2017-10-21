@@ -31,28 +31,27 @@ export class ConversationHandler{
                 mainIntent = item;
         });
 
-        let clarificationSuccess: boolean = true;
-        if (userCache.conversationState == "clarify") {
-            if(userCache.clarifySubject == "whois_yuri"){
-                var topics = intent.entities.filter(_entity => _entity.name == "topic" && _entity.confidence! > 0.6);
-                let topicFound: boolean = false;
-                var that = this;
-                topics.forEach(function(_topic){
-                    if(!topicFound)
-                        reply += "In terms of " + _topic.value + ", ";
-                    else
-                        reply += "As for " + _topic.value + ", ";
-                    
-                    reply += that.replyCreator.getRandomReply(_topic.value ? _topic.value : "none").content;// getTopicExplanation(_topic.value ? _topic.value : "none");
-                    topicFound = true;
-                });
-                if(topics.length == 0) clarificationSuccess = false;
-            } else{
-                clarificationSuccess = false;
-            }
-            userCache.conversationState = "init";
-        } 
-        if(mainIntent.name == "intent" && (userCache.conversationState == "init" || !clarificationSuccess)){
+        let gotTopic: boolean = true;
+
+        var topics = intent.entities.filter(_entity => _entity.name == "topic" && _entity.confidence! > 0.6 && !_entity.suggested);
+        let topicFound: boolean = false;
+        var that = this;//lol
+        topics.forEach(function(_topic){
+            if(!topicFound)
+                reply += "In terms of " + _topic.value + ", ";
+            else
+                reply += "As for " + _topic.value + ", ";
+            let replyItem:Reply = that.replyCreator.getRandomReply(_topic.value ? _topic.value : "none");
+            if(replyItem)
+                reply += replyItem.content;// getTopicExplanation(_topic.value ? _topic.value : "none");
+            topicFound = true;
+        });
+        if(reply.length < 20) {
+            gotTopic = false;
+            reply = "";
+        }
+
+        if(mainIntent.name == "intent" && (userCache.conversationState == "init" || !gotTopic)){
             //handle typical static intents
             if(mainIntent.value == "hello"){
                 reply = this.replyCreator.getRandomReply("greeting").content; //getRandomGreeting(false);
@@ -60,7 +59,7 @@ export class ConversationHandler{
                 reply = "You're asking about me? I'm just Yuri's virtual assistant. I'm hoping I can handle your general questions about him." + 
                 "Maybe one day I'll be as smart as him and do his job! Just don't tell him I said that."//describe making of bot
             } else if(mainIntent.value == "whois_yuri"){
-                reply = "Glad you've asked! He's a very cool guy who likes traveling, gaming and making new friends and having some beer with them." +
+                reply = "Yuri? He's a very cool guy who likes traveling, gaming and making new friends and having some beer with them." +
                 "He's been a software developer since 2012, having worked with a lot of different technologies and languages since.\n" +
                 "I could go on but you might get bored - what specifically you'd like to know about him? Technologies or languages he's worked with?"+ 
                 "His adventures or travels? Personal life?"
@@ -92,6 +91,8 @@ export class ConversationHandler{
         }else if (intent.chatMessage.length == 0){
             reply = this.replyCreator.getRandomReply("fup").content; //getRandomFollowup();
         }
+
+        if(reply.length == 0) reply = "I'm sorry, I don't know how to answer that yet, please try something else!"; //improve
 
         this.nodeCache.set(userSession.userID, userCache);
         return reply;
