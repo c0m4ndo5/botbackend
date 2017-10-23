@@ -4,12 +4,10 @@ var replies = require('../../../data/replies.json');
 
 export class StaticReplyCreator implements IReplyCreator{//static as in hard coded. Pending database implementation, if worth it for this bot
     public repliesList:Reply[] = [];
-    public usedReplies:number[] = [];
+    //public usedReplies:Reply[] = [];
     public constructor(){
-        var idAutoIncrement: number = 0;
         replies.replyList.forEach(element => {
             this.repliesList.push({
-                id:idAutoIncrement++,
                 content: element.content,
                 category: element.category,
                 clarifyState: element.clarifyState,
@@ -18,11 +16,22 @@ export class StaticReplyCreator implements IReplyCreator{//static as in hard cod
         });
     }
 
-    getRandomReply(category: string): Reply{//check if reply used or not
-        
+    isValid(category:string): boolean{
         var responses = this.repliesList.filter(_entity => _entity.category.indexOf(category) >= 0)
+        return responses.length > 0;
+    }
+
+    getRandomReply(category: string, listOfUsedReplies?:Reply[]): Reply | void{//check if reply used or not
+        let _listOfUsedReplies:Reply[] = listOfUsedReplies ? listOfUsedReplies : [];
+        var responses = this.repliesList.filter(_entity => _entity.category.indexOf(category) >= 0 && 
+            _listOfUsedReplies!.filter(__entity => __entity.content == _entity.content).length == 0);//Check if already used to filter out
         var selected = Math.floor((Math.random() * responses.length));
-        return responses[selected];
+        if(responses.length > 0){
+            return responses[selected];
+        }
+        else{
+            return undefined;
+        }
     }
 /* 
     getRandomJoke(): Reply {

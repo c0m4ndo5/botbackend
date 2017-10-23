@@ -18,7 +18,10 @@ export class ConversationHandler{
         let userCache: CacheObject;
         userCache = this.nodeCache.get(userSession.userID);
         if(!userCache) {
-            userCache = { conversationState: "init" };
+            userCache = { 
+                conversationState: "init",
+                usedReplies:[]
+            };
         }
 
         var reply = '';
@@ -41,9 +44,13 @@ export class ConversationHandler{
                 reply += "In terms of " + _topic.value + ", ";
             else
                 reply += "As for " + _topic.value + ", ";
-            let replyItem:Reply = that.replyCreator.getRandomReply(_topic.value ? _topic.value : "none");
-            if(replyItem)
+            var replyItem = that.replyCreator.getRandomReply(_topic.value ? _topic.value : "none", userCache.usedReplies);
+            if(replyItem){
                 reply += replyItem.content;// getTopicExplanation(_topic.value ? _topic.value : "none");
+                userCache.usedReplies.push(replyItem);
+            } else if (that.replyCreator.isValid(_topic.value ? _topic.value : "none")){
+                reply += "I've already told you everything I know. Perhaps I can talk about something else?";
+            }
             topicFound = true;
         });
         if(reply.length < 20) {
@@ -54,12 +61,15 @@ export class ConversationHandler{
         if(mainIntent.name == "intent" && (userCache.conversationState == "init" || !gotTopic)){
             //handle typical static intents
             if(mainIntent.value == "hello"){
-                reply = this.replyCreator.getRandomReply("greeting").content; //getRandomGreeting(false);
+                var replyItem = this.replyCreator.getRandomReply("greeting");
+                if(replyItem){
+                    reply = replyItem.content;
+                }
             } else if(mainIntent.value == "whois"){
                 reply = "You're asking about me? I'm just Yuri's virtual assistant. I'm hoping I can handle your general questions about him." + 
                 "Maybe one day I'll be as smart as him and do his job! Just don't tell him I said that."//describe making of bot
             } else if(mainIntent.value == "whois_yuri"){
-                reply = "Yuri? He's a very cool guy who likes traveling, gaming and making new friends and having some beer with them." +
+                reply = "Yuri? He's a very cool guy who likes traveling, gaming and making new friends and hanging out with them." +
                 "He's been a software developer since 2012, having worked with a lot of different technologies and languages since.\n" +
                 "I could go on but you might get bored - what specifically you'd like to know about him? Technologies or languages he's worked with?"+ 
                 "His adventures or travels? Personal life?"
@@ -87,9 +97,13 @@ export class ConversationHandler{
                 }
             }
         }  else if(mainIntent.name == "bye"){
-            reply = this.replyCreator.getRandomReply("bye").content; //getRandomFarewell(false);
+            var replyItem = this.replyCreator.getRandomReply("bye");
+            if(replyItem)
+                reply = replyItem.content;
         }else if (intent.chatMessage.length == 0){
-            reply = this.replyCreator.getRandomReply("fup").content; //getRandomFollowup();
+            var replyItem = this.replyCreator.getRandomReply("fup");
+            if(replyItem)
+                reply = replyItem.content;
         }
 
         if(reply.length == 0) reply = "I'm sorry, I don't know how to answer that yet, please try something else!"; //improve
