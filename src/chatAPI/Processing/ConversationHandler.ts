@@ -5,6 +5,7 @@ import NodeCache = require('node-cache');
 import { StaticReplyCreator } from './StaticReplyCreator';
 import { IReplyCreator } from './Interfaces/IReplyCreator';
 import { Reply } from '../Models/Reply';
+import { APIResponseData } from '../Models/APIResponse';
 
 export class ConversationHandler{
     public nodeCache: NodeCache;
@@ -14,17 +15,19 @@ export class ConversationHandler{
         this.replyCreator = new StaticReplyCreator();//todo injection to remove coupling
     }
 
-    public handleMessage(intent: IntentData, userSession: SessionObject): string{
+    public handleMessage(intent: IntentData, userSession: SessionObject): APIResponseData{
         let userCache: CacheObject;
         userCache = this.nodeCache.get(userSession.userID);
         if(!userCache) {
             userCache = { 
                 conversationState: "init",
-                usedReplies:[]
+                usedReplies:[],
+                intentHistory:[]
             };
         }
 
         var reply = '';
+        var suggestions:string[] = ["Who is yuri?", "Who are you?"];//default suggestions
         var mainIntent: Entity = {name: "none"};
         intent.entities.forEach(function(item,i){
             if(item.name.toLowerCase() == "intent" && item.confidence! > 0.5){
@@ -33,9 +36,10 @@ export class ConversationHandler{
             if(item.name.toLowerCase() == "bye" && item.confidence! > 0.7 && item.value == "true")
                 mainIntent = item;
         });
-
+        userCache.intentHistory.push(intent);
         let gotTopic: boolean = true;
 
+        //topic: free text detection for topics/multiple topics
         var topics = intent.entities.filter(_entity => _entity.name == "topic" && _entity.confidence! > 0.6 && !_entity.suggested);
         let topicFound: boolean = false;
         var that = this;//lol
@@ -47,6 +51,7 @@ export class ConversationHandler{
             var replyItem = that.replyCreator.getRandomReply(_topic.value ? _topic.value : "none", userCache.usedReplies);
             if(replyItem){
                 reply += replyItem.content;// getTopicExplanation(_topic.value ? _topic.value : "none");
+                suggestions = replyItem.suggestions;
                 userCache.usedReplies.push(replyItem);
             } else if (that.replyCreator.isValid(_topic.value ? _topic.value : "none")){
                 reply += "I've already told you everything I know. Perhaps I can talk about something else?";
@@ -58,9 +63,47 @@ export class ConversationHandler{
             reply = "";
         }
 
+        //Intent = normal intent detection on wit (single intent)
         if(mainIntent.name == "intent" && (userCache.conversationState == "init" || !gotTopic)){
             //handle typical static intents
-            if(mainIntent.value == "hello"){
+            var intentPhrase = mainIntent.value ? mainIntent.value : "";
+            var replyItem = this.replyCreator.getRandomReply(intentPhrase);
+            if(replyItem){
+                reply = replyItem.content;
+                suggestions = replyItem.suggestions;
+                if(replyItem.clarifyState != "none")
+                    userCache.conversationState = replyItem.clarifyState;
+            }
+            else {//dynamic stuff
+                if(mainIntent.value == "where_yuri"){
+                    reply = "Yuri is from Curitiba, Brazil and "
+                    let Departure:Date = new Date(2017, 10, 13);
+                    let now:Date = new Date();
+                    if(now <= Departure) {
+                        reply += "he is currently still living there. He will move to Canada as a Permanent Resident in November 13th, 2017.";
+                    } else if((now.getDay() == Departure.getDay() || now.getDay() == Departure.getDay()+1) && now.getMonth() == Departure.getMonth() && now.getFullYear() == Departure.getFullYear()){
+                        reply += "he is currently moving to Canada as a Permanent Resident. Currently as in, right now! November 13-14th 2017!";
+                    } else if((now.getDay() < Departure.getDay() + 4) && now.getMonth() == Departure.getMonth() && now.getFullYear() == Departure.getFullYear()){
+                        reply += "he has just landed in Canada as a Permanent Resident. Literally! His landing day was November 14th 2017";
+                    } else {
+                        reply += "he is living in Canada as a Permanent Residence since November 14th 2017.";
+                    }
+                } else if(mainIntent.value == "thanks" && userCache.intentHistory.length < 2){
+                    var replyItem = this.replyCreator.getRandomReply("appreciation_more");
+                    if(replyItem){
+                        reply = replyItem.content;
+                        suggestions = replyItem.suggestions;
+                    }
+                } else if(mainIntent.value == "thanks" && userCache.intentHistory.length >= 2){
+                    var replyItem = this.replyCreator.getRandomReply("appreciation_normal");
+                    if(replyItem){
+                        reply = replyItem.content;
+                        suggestions = replyItem.suggestions;
+                    }
+                }
+            }   
+
+/*             if(mainIntent.value == "hello"){
                 var replyItem = this.replyCreator.getRandomReply("greeting");
                 if(replyItem){
                     reply = replyItem.content;
@@ -82,6 +125,10 @@ export class ConversationHandler{
             } else if(mainIntent.value == "professional"){
                 reply = "Looking for his professional information? Alright! You'll find his CV <a href='../files/Yuri_CV.pdf'>here</a> and " +
                 "if you'd rather just see everything in good ol' LinkedIn, please check <a href='https://www.linkedin.com/in/yuri-wergrzn-4269b497/'>his profile</a> out!"
+            } else if(mainIntent.value == "thanks"){
+                var replyItem = this.replyCreator.getRandomReply("thanks");
+                if(replyItem)
+                    reply = replyItem.content;
             } else if(mainIntent.value == "where_yuri"){
                 reply = "Yuri is from Curitiba, Brazil and "
                 let Departure:Date = new Date(2017, 10, 13);
@@ -95,7 +142,7 @@ export class ConversationHandler{
                 } else {
                     reply += "he is living in Canada as a Permanent Residence since November 14th 2017.";
                 }
-            }
+            } */
         }  else if(mainIntent.name == "bye"){
             var replyItem = this.replyCreator.getRandomReply("bye");
             if(replyItem)
@@ -109,6 +156,10 @@ export class ConversationHandler{
         if(reply.length == 0) reply = "I'm sorry, I don't know how to answer that yet, please try something else!"; //improve
 
         this.nodeCache.set(userSession.userID, userCache);
-        return reply;
+        var result:APIResponseData = {
+            reply: reply,
+            suggestions:suggestions
+        }
+        return result;
     }
 }

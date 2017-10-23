@@ -27,6 +27,7 @@ export class StaticReplyCreator implements IReplyCreator{//static as in hard cod
             _listOfUsedReplies!.filter(__entity => __entity.content == _entity.content).length == 0);//Check if already used to filter out
         var selected = Math.floor((Math.random() * responses.length));
         if(responses.length > 0){
+            
             return responses[selected];
         }
         else{

@@ -113,6 +113,13 @@
                 "Yuri's work" , "his adventures", "tell me a joke"
             ]
         },{
+            "content":"Yuri? He's a very cool guy who likes traveling, gaming and making new friends and hanging out with them. He's been a software developer since 2012, having worked with a lot of different technologies and languages since.\n I could go on but you might get bored - what specifically you'd like to know about him? Technologies or languages he's worked with? His adventures or travels? Personal life?",
+            "category":"whois_yuri",
+            "clarifyState":"whois_yuri",
+            "suggestions":[
+                "Yuri's work" , "his adventures", "tell me a joke"
+            ]
+        },{
             "content":"Looking for his professional information? Alright! Yuri is a Software developer with comprehensive experience in C# ASP .NET, process automation and JavaScript/jQuery. Growing knowledge in Node.js, Angular and TDD. You'll find his LinkedIn <a href='https://www.linkedin.com/in/yuri-wergrzn-4269b497/'>LinkedIn profile here</a> and if you'd rather just see a good ol' CV, check it <a href='../files/Yuri_CV.pdf'>this</a> out!",
             "category":"professional",
             "clarifyState":"none",
@@ -206,6 +213,27 @@
         },{
             "content":"Yuri speaks Portuguese and English fluently and comfortably even in presence of audiences, if necessary.",
             "category":"languages",
+            "clarifyState":"none",
+            "suggestions":[
+                "Yuri's work" , "adventures", "programming languages"
+            ]
+        },{
+            "content":"Uhm? I haven't even done much yet! You can thank me later :)",
+            "category":"appreciation_more",
+            "clarifyState":"none",
+            "suggestions":[
+                "Yuri's work" , "adventures", "programming languages"
+            ]
+        },{
+            "content":"I'm very happy to help!",
+            "category":"appreciation_normal",
+            "clarifyState":"none",
+            "suggestions":[
+                "Yuri's work" , "adventures", "programming languages"
+            ]
+        },{
+            "content":"Glad to be of assistance!",
+            "category":"appreciation_normal",
             "clarifyState":"none",
             "suggestions":[
                 "Yuri's work" , "adventures", "programming languages"

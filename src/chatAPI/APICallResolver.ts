@@ -31,7 +31,7 @@ router.post('/message', function(req, res, next) {
             var intentProcessor = new WitIntentProcessor();
             intentProcessor.callAPI(req.body.message, function(_intent: IntentData){
                 var response = cHandler.handleMessage(_intent, userData);
-                res.json({reply:response});
+                res.json(response);
             });
         } else res.json({reply:'Unexpected request format'});
     } else res.json({reply:'Unexpected request format'});
