@@ -86,7 +86,7 @@ export class ConversationHandler{
                     } else if((now.getDay() < Departure.getDay() + 4) && now.getMonth() == Departure.getMonth() && now.getFullYear() == Departure.getFullYear()){
                         reply += "he has just landed in Canada as a Permanent Resident. Literally! His landing day was November 14th 2017";
                     } else {
-                        reply += "he is living in Canada as a Permanent Residence since November 14th 2017.";
+                        reply += "he is living in Canada as a Permanent Resident since November 14th 2017.";
                     }
                 } else if(mainIntent.value == "thanks" && userCache.intentHistory.length < 2){
                     var replyItem = this.replyCreator.getRandomReply("appreciation_more");

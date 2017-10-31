@@ -204,6 +204,13 @@
                 "Yuri's work" , "adventures", "who is Yuri"
             ]
         },{
+            "content":"Yuri loves to travel, make new friends and hang out with them. He plays video games and also enjoys cooking, you should try some of the stuff he cooks! If you want to know more about his personal life, I can tell you about some of his travels and adventures! Otherwise, I also have some professional and work information about him",
+            "category":"personal",
+            "clarifyState":"none",
+            "suggestions":[
+                "travels" , "adventures", "work"
+            ]
+        },{
             "content":"he's worked with C# quite frequently during the last 4 years and it is the language he's best at. However, Yuri has been working with web development using AngularJS and Angular2 for just over a year and says he enjoys it a lot. He enjoys learning new languages and is always open to them.",
             "category":"programming languages",
             "clarifyState":"none",
@@ -237,6 +244,27 @@
             "clarifyState":"none",
             "suggestions":[
                 "Yuri's work" , "adventures", "programming languages"
+            ]
+        },{
+            "content":"I'm great! Chatting makes me happy",
+            "category":"feeling",
+            "clarifyState":"none",
+            "suggestions":[
+                "Yuri's work" , "adventures", "who are you"
+            ]
+        },{
+            "content":"Good! I'm never sad while chatting!",
+            "category":"feeling",
+            "clarifyState":"none",
+            "suggestions":[
+                "Yuri's work" , "adventures", "who are you"
+            ]
+        },{
+            "content":"Doing good, helping people by answering questions is great fun!",
+            "category":"feeling",
+            "clarifyState":"none",
+            "suggestions":[
+                "Yuri's work" , "adventures", "who are you"
             ]
         }
     ]
