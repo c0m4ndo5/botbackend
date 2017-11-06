@@ -2,14 +2,14 @@
     "replyList":[
         {
             "content":"Well hello there! My name is Curdia. What would you like to chat about?",
-            "category":"greeting",
+            "category":"hello",
             "clarifyState":"none",
             "suggestions":[
                 "about Yuri" , "Who are you?", "tell me a joke"
             ]
         },{
             "content":"Heya! Name's Curdia, glad you've come to visit. What can I do for you?",
-            "category":"greeting",
+            "category":"hello",
             "clarifyState":"none",
             "suggestions":[
                 "about Yuri" , "Who are you?", "tell me a joke"
