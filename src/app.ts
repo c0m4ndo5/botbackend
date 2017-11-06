@@ -23,8 +23,15 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/files',express.static(path.join(__dirname, '../files')));
 
 //Setup cookies
+var cookieKey;
+if(process.env.cookieKey)
+  cookieKey = process.env.cookieKey;
+else{
+  cookieKey = settings.cookieKey;
+}
+
 app.use(cookieSession({
-  secret: settings.cookieKey,
+  secret: cookieKey,
   signed: true,
   maxAge: 24 * 60 * 60 * 1000
 }));

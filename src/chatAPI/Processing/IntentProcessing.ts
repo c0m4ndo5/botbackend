@@ -2,6 +2,7 @@ import { IntentData, Entity } from '../Models/Intent';
 import request = require('request');
 var settings = require('../../settings.json');
 
+
 export interface IIntentProcessor{
     callAPI(message: string, callback: ((_intent: IntentData) => void)): void;
 }
@@ -11,11 +12,21 @@ export class WitIntentProcessor implements IIntentProcessor{
     auth: string;
 
     public callAPI(message: string, callback: ((_intent: IntentData) => void)): void{
+        var wit_url;
+        var wit_key;
+        if(process.env.WITURL && process.env.WITKEY){
+            wit_url = process.env.WITURL;
+            wit_key = process.env.WITKEY;
+        } else {
+
+            wit_url = settings.wit_url;
+            wit_key = settings.auth_token_wit;
+        }
         if(message.length > 0){
             var options = {
-                url: settings.wit_url + encodeURI(message),
+                url: wit_url + encodeURI(message),
                 method: 'GET',
-                headers:{Authorization: 'Bearer ' + settings.auth_token_wit}
+                headers:{Authorization: 'Bearer ' + wit_key}
             }
             request(options, function(error, response, body){
                 var bodyJson = JSON.parse(body);

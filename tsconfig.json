@@ -15,5 +15,8 @@
     ],
     "exclude": [
       "**/*.spec.ts"
+    ],
+    "files": [
+      "./src/custom_typings/json.d.ts"
     ]
   }
