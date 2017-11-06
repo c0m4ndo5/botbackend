@@ -17,6 +17,6 @@
       "**/*.spec.ts"
     ],
     "files": [
-      "./src/custom_typings/json.d.ts"
+      "./custom_typings/json.d.ts"
     ]
   }
