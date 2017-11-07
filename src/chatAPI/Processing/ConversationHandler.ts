@@ -53,12 +53,14 @@ export class ConversationHandler{
                 reply += replyItem.content;// getTopicExplanation(_topic.value ? _topic.value : "none");
                 suggestions = replyItem.suggestions;
                 userCache.usedReplies.push(replyItem);
+                topicFound = true;
             } else if (that.replyCreator.isValid(_topic.value ? _topic.value : "none")){
                 reply += "I've already told you everything I know. Perhaps I can talk about something else?";
+                topicFound = true;
             }
-            topicFound = true;
+            
         });
-        if(reply.length < 20) {
+        if(!topicFound) {
             gotTopic = false;
             reply = "";
         }
