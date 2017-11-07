@@ -12,8 +12,8 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var server_ip_address = process.env.CURDIABOT_SERVICE_HOST || '127.0.0.1'
-var port = normalizePort(process.env.CURDIABOT_SERVICE_PORT || '3000');
+//var server_ip_address = process.env.CURDIABOT_SERVICE_HOST || '127.0.0.1'
+var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
@@ -26,7 +26,7 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port, server_ip_address);
+server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
