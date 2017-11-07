@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
-var settings = require('../data/settings.json');
+//ar settings = require('../data/settings.json');
 
 var app = express();
 
@@ -24,11 +24,11 @@ app.use('/files',express.static(path.join(__dirname, '../files')));
 
 //Setup cookies
 var cookieKey;
-if(process.env.cookieKey)
+//if(process.env.cookieKey)
   cookieKey = process.env.cookieKey;
-else{
-  cookieKey = settings.cookieKey;
-}
+//else{
+//  cookieKey = settings.cookieKey;
+//}
 
 app.use(cookieSession({
   secret: cookieKey,
